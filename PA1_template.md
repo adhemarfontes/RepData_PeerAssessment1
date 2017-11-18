@@ -43,18 +43,7 @@ aggregated[, 1] <- as.Date(aggregated[, 1])
 
 
 ```r
-library(ggplot2)
-library("scales")
-
-ggplot(aggregated, aes(Date, x)) + 
-xlab("Date")+
-ylab("Total steps")+
-scale_x_date(breaks=date_breaks("1 month"), labels=date_format("%b %y")) +
-geom_histogram(stat="identity", binwidth=.5, alpha=.5, bins=1)
-```
-
-```
-## Warning: Ignoring unknown parameters: binwidth, bins, pad
+hist(aggregated$x, main = paste("Total Steps Per Day"), col="blue", xlab="Number of Steps")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
@@ -78,6 +67,9 @@ median <- median(aggregated$x)
 
 
 ```r
+library(ggplot2)
+library("scales")
+
 averaged <- aggregate( activity$steps, by=list(Interval=activity$interval), mean, na.rm=TRUE)
 
 ggplot(averaged, aes(Interval, x)) + geom_line() +
@@ -101,11 +93,11 @@ intervalmax = averaged[averaged$x == max(averaged$x, na.rm=TRUE), 1]
 
 
 ```r
-numberNas = nrow(activity[activity$hasValue == TRUE,])
+numberNas = nrow(activity[activity$hasValue == FALSE,])
 percentNas = (1 - nrow(activity[activity$hasValue == TRUE,]) / nrow(activity)) * 100
 ```
 
-**Number of NAs:** 15264
+**Number of NAs:** 2304
 
 **Percentage of NAs:** 13.1147541
 
@@ -149,15 +141,7 @@ aggregatedNoNa <- aggregate( activityNoNa$steps, by=list(Date=activityNoNa$date)
 
 aggregatedNoNa[, 1] <- as.Date(aggregatedNoNa[, 1])
 
-ggplot(aggregatedNoNa, aes(Date, x)) + 
-xlab("Date")+
-ylab("Total steps")+
-scale_x_date(breaks=date_breaks("1 month"), labels=date_format("%b %y")) +
-geom_histogram(stat="identity", binwidth=.5, alpha=.5, bins=1)
-```
-
-```
-## Warning: Ignoring unknown parameters: binwidth, bins, pad
+hist(aggregatedNoNa$x, main = paste("Total Steps Per Day"), col="blue", xlab="Number of Steps")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-11-1.png)<!-- -->

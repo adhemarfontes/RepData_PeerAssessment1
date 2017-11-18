@@ -47,14 +47,8 @@ aggregated[, 1] <- as.Date(aggregated[, 1])
 
 ```{r}
 
-library(ggplot2)
-library("scales")
 
-ggplot(aggregated, aes(Date, x)) + 
-xlab("Date")+
-ylab("Total steps")+
-scale_x_date(breaks=date_breaks("1 month"), labels=date_format("%b %y")) +
-geom_histogram(stat="identity", binwidth=.5, alpha=.5, bins=1)
+hist(aggregated$x, main = paste("Total Steps Per Day"), col="blue", xlab="Number of Steps")
 
 ```
 
@@ -75,6 +69,8 @@ median <- median(aggregated$x)
 ### 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 
 ```{r}
+library(ggplot2)
+library("scales")
 
 averaged <- aggregate( activity$steps, by=list(Interval=activity$interval), mean, na.rm=TRUE)
 
@@ -95,7 +91,7 @@ intervalmax = averaged[averaged$x == max(averaged$x, na.rm=TRUE), 1]
 ###1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
 
 ```{r}
-numberNas = nrow(activity[activity$hasValue == TRUE,])
+numberNas = nrow(activity[activity$hasValue == FALSE,])
 percentNas = (1 - nrow(activity[activity$hasValue == TRUE,]) / nrow(activity)) * 100
 ```
 
@@ -143,11 +139,7 @@ aggregatedNoNa <- aggregate( activityNoNa$steps, by=list(Date=activityNoNa$date)
 
 aggregatedNoNa[, 1] <- as.Date(aggregatedNoNa[, 1])
 
-ggplot(aggregatedNoNa, aes(Date, x)) + 
-xlab("Date")+
-ylab("Total steps")+
-scale_x_date(breaks=date_breaks("1 month"), labels=date_format("%b %y")) +
-geom_histogram(stat="identity", binwidth=.5, alpha=.5, bins=1)
+hist(aggregatedNoNa$x, main = paste("Total Steps Per Day"), col="blue", xlab="Number of Steps")
 
 ```
 
